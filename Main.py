@@ -4,9 +4,6 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.chains import SequentialChain
 
-from dotenv import load_dotenv, find_dotenv
-_ = load_dotenv(find_dotenv())
-
 st.title(":male-cook: Restaurant Name Generator")
 with st.sidebar:
     openai_api_key = st.text_input("OpenAI API Key", type="password")
