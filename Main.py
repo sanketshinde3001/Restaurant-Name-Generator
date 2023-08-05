@@ -4,6 +4,9 @@ from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.chains import SequentialChain
 
+from dotenv import load_dotenv, find_dotenv
+_ = load_dotenv(find_dotenv())
+
 st.title(":male-cook: Restaurant Name Generator")
 with st.sidebar:
     openai_api_key = st.text_input("OpenAI API Key", type="password")
@@ -17,7 +20,7 @@ def generate_restaurant_name_and_items(cuisine):
     name_chain = LLMChain(llm=llm, prompt=prompt_template_name,output_key="restaurant_name")
 
     prompt_template_item = PromptTemplate(input_variables=['restaurant_name'],
-    template="""Suggest some menu items for {restaurant_name}. Return it is as a bullet list where each item in new line."""
+    template="""Suggest some menu items for {restaurant_name}. Return it is as a comma separated list."""
     )
 
     food_items_chain = LLMChain(llm=llm, prompt=prompt_template_item, output_key="menu_items")
@@ -41,7 +44,7 @@ with st.form("myform"):
         response=generate_restaurant_name_and_items(cuisine)
         st.header(response['restaurant_name'].strip())
         menu_items=response['menu_items'].strip().split(",")
-        st.write("Menu Items :")
+        st.write("**Menu Items :**")
         for item in menu_items:
             st.write("🔸",item)
 
